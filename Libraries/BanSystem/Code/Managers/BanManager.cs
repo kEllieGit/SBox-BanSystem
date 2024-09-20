@@ -1,5 +1,6 @@
 using Sandbox;
 using Sandbox.Diagnostics;
+using System;
 
 namespace BanSystem;
 
@@ -28,16 +29,15 @@ public sealed class BanManager : Component
 	/// </summary>
 	public static ConnectionAttemptResult ConnectionAttempt( Component kickableComponent )
 	{
-		if ( kickableComponent is not IKickable )
+		var result = ConnectionAttemptResult.Success;
+
+		if ( kickableComponent is not IKickable kickable )
 		{
 			Log.Warning( "Provided component is not kickable!" );
-			return ConnectionAttemptResult.Success;
+			return result;
 		}
 
-		var result = ConnectionAttemptResult.Success;
 		var owner = kickableComponent.Network.Owner;
-		var kickable = kickableComponent as IKickable;
-
 		bool isServerBanned = Instance.Bans.IsBanned( owner );
 		bool isGameBanned = GameBanManager.Instance.Bans.IsBanned( owner );
 
@@ -47,7 +47,7 @@ public sealed class BanManager : Component
 			kickable?.Kick( banReason );
 
 			Log.Info( $"Game banned player '{owner.DisplayName}' tried connecting! Ban reason: {banReason}" );
-			return ConnectionAttemptResult.Banned;
+			return ConnectionAttemptResult.Banned | ConnectionAttemptResult.GameBanned;
 		}
 
 		if ( isServerBanned )
@@ -56,7 +56,7 @@ public sealed class BanManager : Component
 			kickable?.Kick( banReason );
 
 			Log.Info( $"Server banned player '{owner.DisplayName}' tried connecting! Ban reason: {banReason}" );
-			return ConnectionAttemptResult.Banned;
+			return ConnectionAttemptResult.Banned | ConnectionAttemptResult.ServerBanned;
 		}
 
 		return result;
@@ -67,11 +67,13 @@ public sealed class BanManager : Component
 		return Instance.Bans.Ban( channel, reason );
 	}
 
+	[Flags]
 	public enum ConnectionAttemptResult
 	{
-		Success,
-		Failure,
-		Banned
+		Success = 0,
+		Banned = 1,
+		ServerBanned = 2,
+		GameBanned = 3
 	}
 }
 
