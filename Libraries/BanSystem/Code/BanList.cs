@@ -21,6 +21,18 @@ public class BanList : List<Ban>
 		return ban;
 	}
 
+	public Ban Ban( ulong steamId, string reason = "No Reason" )
+	{
+		Ban ban = new()
+		{
+			SteamId = (long)steamId,
+			Reason = reason
+		};
+
+		Add( ban );
+		return ban;
+	}
+
 	public Ban GetBan( Connection connection )
 	{
 		return this.FirstOrDefault( x => x.SteamId == (long)connection.SteamId );
