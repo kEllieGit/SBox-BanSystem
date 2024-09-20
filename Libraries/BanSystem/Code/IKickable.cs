@@ -12,6 +12,5 @@ public interface IKickable
 	/// Ban the owning connection from the game.
 	/// </summary>
 	/// <param name="reason">Reason for the ban</param>
-	/// <param name="type">Type of the ban</param>
-	void Ban( string reason = "No Reason", BanType type = BanType.Server );
+	void Ban( string reason = "No Reason" );
 }

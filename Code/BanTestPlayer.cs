@@ -22,18 +22,9 @@ public sealed class BanTestPlayer : Component, IKickable
 	}
 
 	[Authority( NetPermission.HostOnly )]
-	public void Ban( string reason = "No Reason", BanType type = BanType.Server )
+	public void Ban( string reason = "No Reason" )
 	{
-		switch ( type )
-		{
-			case BanType.Server:
-				BanManager.Ban( Network.Owner, reason );
-				break;
-			case BanType.Game:
-				GameBanManager.Ban( Network.Owner, reason );
-				break;
-		}
-
+		BanManager.Ban( Network.Owner, reason );
 		Kick( reason );
 	}
 }
