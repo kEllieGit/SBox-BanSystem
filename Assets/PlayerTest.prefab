@@ -1,0 +1,23 @@
+{
+  "RootObject": {
+    "__guid": "d246341e-1d25-4e25-bc8a-7f26b53dedb9",
+    "Flags": 0,
+    "Name": "playertest",
+    "Enabled": true,
+    "Components": [
+      {
+        "__type": "Testing.BanTestPlayer",
+        "__guid": "a4e31eb1-f546-4295-8a97-afff3e48e1d1"
+      }
+    ],
+    "Children": [],
+    "__variables": []
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "ResourceVersion": 1,
+  "__references": [],
+  "__version": 1
+}
